@@ -1,0 +1,96 @@
+html{
+  height: 100%;
+}
+  
+body{
+  height: 100%;
+  padding: 0px;
+  margin: 0px;
+}
+
+#mainframe {
+  height: 100%;
+  background-color: pink;
+  display: grid;
+  grid-template-areas:
+    'toolbar toolbar toolbar'
+    'container-edit splitter container-out'
+    'statusbar statusbar statusbar';
+  grid-template-rows: 40px 1fr 40px;
+  grid-template-columns: 1fr 8px 1fr;	
+}
+
+#toolbar {
+  padding: 10px;
+  background-color: #EEE;
+  overflow: auto;
+  overflow-y: hidden; /* Remove y scroll bar */
+  grid-area: toolbar;
+  display: grid;
+  grid-template-areas: 'tlb-editor tlb-output';
+  grid-template-columns: 1fr 1fr;
+}
+
+#tlb-output {
+  text-align: right;
+}
+
+#container-edit {
+  background-color: white;
+  border: 1px solid #ddd;
+  /*overflow: auto;*/
+  grid-area: container-edit;
+  /*padding: 10px 10px 10px 10px;*/
+}
+
+#splitter {
+  grid-area: splitter;
+  cursor: ew-resize;
+  background-color: #EEE;
+  background-image: url(vertical.png);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#statusbar {
+  padding: 10px;
+  background-color: #EEE;
+  overflow: auto;
+  grid-area: statusbar;
+  display: grid;
+  grid-template-areas: 'stb_status stb_copy';
+  grid-template-columns: 1fr 1fr;
+  font-size: 12px;
+  font-family: 'Oxygen Mono', Consolas, 'Liberation Mono', 'DejaVu Sans Mono', monospace;
+}
+
+#stb-status {
+  
+}
+
+#stb-copy {
+  text-align: right;
+}
+
+#container-out {
+  padding: 10px;
+  border: 1px solid #ddd;
+  overflow: auto;
+  grid-area: container-out;
+  background-color: #FFFFE0;
+}
+
+#output {
+  border: none;
+  outline: none;
+  resize: none;
+  padding: 0px;
+  color: #666;
+  display: block;
+  background-color: #FFFFE0;
+  width: 100%;
+  height: 100%;
+  float: none;
+  font-family: 'Oxygen Mono', Consolas, 'Liberation Mono', 'DejaVu Sans Mono', monospace;
+  font-size: 14px;
+}

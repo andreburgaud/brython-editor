@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type="text/javascript" src="/brython.js" defer></script>
+    <script type="text/javascript" src="/brython_stdlib.js" defer></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/ace.min.js" integrity="sha256-qCCcAHv/Z0u7K344shsZKUF2NR+59ooA3XWRj0LPGIQ=" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/ext-whitespace.min.js" integrity="sha256-1aeVCHOsjaqqX6uhckovT0ddDmfnK3p+UQpuWxXwVGY=" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/ext-language_tools.min.js" integrity="sha256-KFXf4u8zJlXEUJckmmZbITzYENXMuqPqyrlscCKeqFU=" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/mode-python.min.js" integrity="sha256-dgu7+RV2rby44bxsuQuo2Rm+pG0JXtShrFWStI0DrC4=" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/theme-monokai.min.js" integrity="sha256-QjbDa92d4Q3oBUXnKXRhOrz8eONu3odsIlDHnNwg4y4=" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/theme-eclipse.min.js" integrity="sha256-PKCwSrsW+NaJjhLX139mbUY/Atk45WHvHWpbvoAh5Ww=" crossorigin="anonymous" defer></script>
+    <link href="main.css" rel="stylesheet" type="text/css">
+  </head>
+
+    <!-- <script type="text/python" class="webworker" src="/execute.py" id="worker"></script> -->
+    <body onload="brython(2)">
+<script type="text/python3" class="webworker" src="/execute.py" id="worker"></script>
+<script type="text/python3" src="/app.py" id="__main__"></script>
+</script>
+    <div id="mainframe">
+      <div id="toolbar">
+        <div id="tlb-editor">
+          <button id="btn-run">Run</button>
+          <button id="btn-reset">Reset</button>
+          <button id="btn-terminate">Terminate</button>
+        </div>
+        <div id="tlb-output">
+          <button id="btn-clear">Clear</button>
+          <button id="btn-help">Help</button>
+          <button id="btn-about">About</button>
+        </div>
+      </div>
+      <div id="splitter"></div>
+      <div id="container-edit"></div>
+      <div id="container-out">
+        <textarea id="output" autocomplete="off" readonly></textarea>
+      </div>
+      <div id="statusbar">
+        <div id="stb-status"></div>
+        <div id="stb-copy">Copyright &#169; 2020 <a href="https://www.burgaud.com" target="_blank">Andr&#233; Burgaud</a></div>
+      </div>
+    </div>
+</body>
