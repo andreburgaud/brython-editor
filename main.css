@@ -21,18 +21,14 @@ body{
 }
 
 #toolbar {
-  padding: 10px;
-  background-color: #EEE;
-  overflow: auto;
+  /* padding: 10px; */
+  width: 100%;
+  /* background-color: #EEE; */
+  grid-column-start: 1;
+  grid-column-end: span col3-start;
+  grid-areas: 'toolbar';
+  overflow: hidden;
   overflow-y: hidden; /* Remove y scroll bar */
-  grid-area: toolbar;
-  display: grid;
-  grid-template-areas: 'tlb-editor tlb-output';
-  grid-template-columns: 1fr 1fr;
-}
-
-#tlb-output {
-  text-align: right;
 }
 
 #container-edit {
@@ -44,7 +40,7 @@ body{
   grid-area: splitter;
   cursor: ew-resize;
   background-color: #EEE;
-  background-image: url(vertical.png);
+  background-image: url(images/vertical.png);
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -60,9 +56,7 @@ body{
   font-size: 12px;
 }
 
-#stb-status {
-  
-}
+#stb-status {}
 
 #stb-copy {
   text-align: right;

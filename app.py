@@ -14,13 +14,12 @@ class App:
   MIN_WIDTH_OUTPUT = 100
   SPLITTER_WIDTH = 8
   EXECUTOR = False
-  LIGHT_THEME = "ace/theme/chrome"
-  #DARK_THEME = "ace/theme/chaos"
-  DARK_THEME = "ace/theme/ambiance"
+  DEFAULT_THEME = "ambiance"
   STORE_EDITOR_CODE = "brython_scratchpad_code"
   STORE_EDITOR_THEME = "brython_scratchpad_theme"
 
   def __init__(self, editor):
+    self.theme = App.DEFAULT_THEME
     self.is_resizing = False
     self.editor = editor
     self.init_code()
@@ -31,14 +30,18 @@ class App:
     self.splitter = document['splitter']
     self.output = document['output']
     self.stb_status = document['stb-status']
-    self.btn_run = document['btn-run']
 
+    self.btn_run = document['btn-run']
     self.btn_clear = document['btn-clear']
-    self.btn_theme = document['btn-theme']
-    self.btn_reset = document['btn-reset']
+
     self.btn_about = document['btn-about']
     self.btn_close_about = document['btn-close-about']
     self.modal_about = document['modal-about']
+
+    self.btn_config = document['btn-config']
+    self.btn_close_config = document['btn-close-config']
+    self.modal_config = document['modal-config']
+    self.sel_theme = document['sel-theme']
 
     if App.EXECUTOR:
       self.btn_terminate = document['btn-terminate']
@@ -58,10 +61,9 @@ class App:
 
   def init_theme(self):
     if storage is not None and App.STORE_EDITOR_THEME in storage:
-      self.update_theme_button(storage[App.STORE_EDITOR_THEME])
+      self.set_theme(storage[App.STORE_EDITOR_THEME])
     else:
-      self.update_theme_button(App.DARK_THEME)
-
+      self.set_theme(App.DEFAULT_THEME)
 
   def create_executor(self):
     w = worker.Worker('worker')
@@ -93,9 +95,6 @@ class App:
   def start_progress(self):
     self.stb_status.text = 'Execution in progress...'
 
-  def reset_code(self):
-    self.editor.setValue(CODE_EXAMPLE)
-
   def on_reset(self, evt):
     self.reset_code()
     self.reset_size()
@@ -104,10 +103,19 @@ class App:
 
   def on_about(self, evt):
     self.modal_about.classList.add('is-active')
-    self.modal_about.classList.add('is-clipped')
+    #self.modal_about.classList.add('is-clipped')
 
   def on_close_about(self, evt):
     self.modal_about.classList.remove('is-active')
+
+  def on_config(self, evt):
+    self.modal_config.classList.add('is-active')
+    for o in self.sel_theme:
+      if o.value == self.theme:
+        o.selected = True
+
+  def on_close_config(self, evt):
+    self.modal_config.classList.remove('is-active')
 
   def on_run(self, evt):
     src = self.editor.getValue()
@@ -191,11 +199,18 @@ class App:
     self.btn_run.bind('click', self.on_run)
     if App.EXECUTOR:
       self.btn_terminate.bind('click', self.on_terminate)
-    self.btn_theme.bind('click', self.toggle_theme)
-    self.btn_reset.bind('click', self.on_reset)
     self.btn_clear.bind('click', self.on_clear)
+
+    # About
     self.btn_about.bind('click', self.on_about)
     self.btn_close_about.bind('click', self.on_close_about)
+
+    # Config
+    self.btn_config.bind('click', self.on_config)
+    self.btn_close_config.bind('click', self.on_close_config)
+
+    self.sel_theme.bind('change', self.on_theme_changed)
+
     self.editor.bind('blur', self.on_blur)
     window.onresize = self.on_window_resize
     window.onmouseup = self.end_resize
@@ -241,17 +256,27 @@ class App:
     if storage is not None and storage.get(App.STORE_EDITOR_CODE) != code:
       storage[App.STORE_EDITOR_CODE] = code
 
-  def update_theme_button(self, theme):
-    self.editor.setTheme(theme)
-    self.btn_theme.text = 'Dark' if theme == App.LIGHT_THEME else "Light"
+  # def update_theme_button(self, theme):
+  #   self.editor.setTheme(theme)
+  #   #self.btn_theme.text = 'Dark' if theme == App.LIGHT_THEME else "Light"
 
-  def toggle_theme(self, evt):
-    theme = App.DARK_THEME
-    if self.editor.getTheme() == theme:
-        theme = App.LIGHT_THEME
-    self.update_theme_button(theme)
+  # def toggle_theme(self, evt):
+  #   theme = App.DARK_THEME
+  #   if self.editor.getTheme() == theme:
+  #       theme = App.LIGHT_THEME
+  #   self.update_theme_button(theme)
+  #   if storage is not None:
+  #      storage[App.STORE_EDITOR_THEME] = theme
+
+  def set_theme(self, theme):
+    self.editor.setTheme(f'ace/theme/{theme}')
     if storage is not None:
-       storage[App.STORE_EDITOR_THEME] = theme
+      storage[App.STORE_EDITOR_THEME] = theme
+    self.theme = theme
+
+  def on_theme_changed(self, evt):
+    theme = [o.value for o in evt.srcElement.options if o.selected][0]
+    self.set_theme(theme)
 
 class EditorFrame:
   def __init__(self):

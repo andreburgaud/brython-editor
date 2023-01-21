@@ -15,15 +15,36 @@
 <script type="text/python3" src="/app.py" id="__main__"></script>
   <div id="mainframe">
     <div id="toolbar">
-      <div id="tlb-editor">
-        <button class="button is-primary has-tooltip-right" id="btn-run" data-tooltip="Execute Python code">Run</button>
-        <button class="button has-tooltip-right" id="btn-theme" data-tooltip="Switch editor theme (light/dark)">Light</button>
-        <button class="button has-tooltip-right" id="btn-reset" data-tooltip="Reload code example">Reset</button>
+      <nav class="navbar is-transparent" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="/">
+          <img src="/images/python-powered-w-70x28.png" alt="Python ScratchPad" width="70" height="28">
+        </a>
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="menu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
       </div>
-      <div id="tlb-output">
-        <button class="button has-tooltip-left" id="btn-clear" data-tooltip="Clear ouput pane">Clear</button>
-        <button class="button modal-button" id="btn-about" data-target="modal" aria-haspopup="true">About</button>
+      <div id="menu" class="navbar-menu">
+        <div class="navbar-start">
+          <div class="navbar-item">
+            <div class="buttons">
+              <a class="button is-primary has-tooltip-right" id="btn-run" data-tooltip="Execute Python code"><strong>Run</strong></a>
+            </div>
+          </div>
+        </div>
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <div class="buttons">
+              <a class="button modal-button has-tooltip-left" id="btn-clear" data-tooltip="Clear output pane" aria-haspopup="true">Clear</a>
+              <a class="button modal-button has-tooltip-left" id="btn-config" data-tooltip="Editor Configuration" aria-haspopup="true">Preferences</a>
+              <a class="button modal-button has-tooltip-left" id="btn-about" data-tooltip="About PyScratchPad" aria-haspopup="true">About</a>
+            </div>
+          </div>
+        </div>
       </div>
+      </nav>
     </div>
     <div id="splitter"></div>
     <div id="container-edit"></div>
@@ -49,6 +70,32 @@
       <footer class="modal-card-foot">
         <button class="button is-success" id="btn-close-about">Ok</button>
       </footer>
+    </div>
   </div>
-</div>
+  <div class="modal" id="modal-config">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Preferences</p>
+      </header>
+      <section class="modal-card-body">
+      <div class="field">
+        <label class="label">Editor Themes</label>
+        <div class="control">
+          <div class="select">
+            <select id="sel-theme">
+              <option value="chrome">Chrome (bright)</option>
+              <option value="clouds">Clouds (bright)</option>
+              <option value="ambiance">Ambiance (dark)</option>
+              <option value="chaos">Chaos (dark)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      </section>
+      <footer class="modal-card-foot">
+        <button class="button is-success" id="btn-close-config">Ok</button>
+      </footer>
+    </div>
+  </div>
 </body>
