@@ -15,7 +15,8 @@ class App:
   SPLITTER_WIDTH = 8
   EXECUTOR = False
   LIGHT_THEME = "ace/theme/chrome"
-  DARK_THEME = "ace/theme/chaos"
+  #DARK_THEME = "ace/theme/chaos"
+  DARK_THEME = "ace/theme/ambiance"
   STORE_EDITOR_CODE = "brython_scratchpad_code"
   STORE_EDITOR_THEME = "brython_scratchpad_theme"
 
