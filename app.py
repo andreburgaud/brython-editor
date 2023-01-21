@@ -2,17 +2,27 @@ import sys, time
 from browser import worker, document, html, timer, window
 from browser.widgets.dialog import InfoDialog
 
+if hasattr(window, 'localStorage'):
+  from browser.local_storage import storage
+else:
+  storage = None
+
 CODE_EXAMPLE = '''# This is a Python comment\nprint('Hello Python World!')'''
 
 class App:
   MIN_WIDTH_EDITOR = 150
   MIN_WIDTH_OUTPUT = 100
   SPLITTER_WIDTH = 8
+  EXECUTOR = False
+  LIGHT_THEME = "ace/theme/chrome"
+  DARK_THEME = "ace/theme/chaos"
+  STORE_EDITOR_CODE = "brython_scratchpad_code"
+  STORE_EDITOR_THEME = "brython_scratchpad_theme"
 
   def __init__(self, editor):
     self.is_resizing = False
     self.editor = editor
-    self.editor.setValue(CODE_EXAMPLE)
+    self.init_code()
     self.session = editor.getSession()
     self.mainframe = document['mainframe']
     self.toolbar = document['toolbar']
@@ -21,13 +31,36 @@ class App:
     self.output = document['output']
     self.stb_status = document['stb-status']
     self.btn_run = document['btn-run']
-    self.btn_terminate = document['btn-terminate']
+
     self.btn_clear = document['btn-clear']
+    self.btn_theme = document['btn-theme']
     self.btn_reset = document['btn-reset']
     self.btn_about = document['btn-about']
+    self.btn_close_about = document['btn-close-about']
+    self.modal_about = document['modal-about']
+
+    if App.EXECUTOR:
+      self.btn_terminate = document['btn-terminate']
+      self.executor = self.create_executor()
+      self.create_executor()
+
     self.bind_events()
-    self.executor = self.create_executor()
-    self.create_executor()
+    self.init_theme()
+
+  def init_code(self):
+    if storage is not None and App.STORE_EDITOR_CODE in storage and storage[App.STORE_EDITOR_CODE]:
+      self.editor.setValue(storage[App.STORE_EDITOR_CODE])
+    else:
+      self.editor.setValue(CODE_EXAMPLE)
+    self.editor.scrollToRow(0)
+    self.editor.gotoLine(0)
+
+  def init_theme(self):
+    if storage is not None and App.STORE_EDITOR_THEME in storage:
+      self.update_theme_button(storage[App.STORE_EDITOR_THEME])
+    else:
+      self.update_theme_button(App.DARK_THEME)
+
 
   def create_executor(self):
     w = worker.Worker('worker')
@@ -69,13 +102,11 @@ class App:
     self.clear_status()
 
   def on_about(self, evt):
-    display = html.DIV(style={"text-align": "center"})
-    display <= html.P('Brython Scratchpad')
-    display <= html.P('MIT License')
-    display <= html.P('Copyright &#169; 2022 Andr&#233; Burgaud')
-    dlg_info = InfoDialog(title='About',
-      message=display,
-      remove_after=None)
+    self.modal_about.classList.add('is-active')
+    self.modal_about.classList.add('is-clipped')
+
+  def on_close_about(self, evt):
+    self.modal_about.classList.remove('is-active')
 
   def on_run(self, evt):
     src = self.editor.getValue()
@@ -84,7 +115,6 @@ class App:
     self.clear()
     self.start_progress()
     timer.set_timeout(self.exec_code, 10)
-
 
   def on_terminate(self, evt):
     print("Kill the executor")
@@ -101,7 +131,11 @@ class App:
     t0 = time.perf_counter()
 
     try:
-      self.executor.send(src)
+      if App.EXECUTOR:
+        self.executor.send(src)
+      else:
+        ns = {'__name__':'__main__'}
+        exec(src, ns)
 
     except SyntaxError as err:
       self.handle_syntax_error(line_count)
@@ -154,10 +188,14 @@ class App:
     self.splitter.bind('mousedown', self.start_resize)
     self.mainframe.bind('mousemove', self.on_resize)
     self.btn_run.bind('click', self.on_run)
-    self.btn_terminate.bind('click', self.on_terminate)
-    self.btn_clear.bind('click', self.on_clear)
+    if App.EXECUTOR:
+      self.btn_terminate.bind('click', self.on_terminate)
+    self.btn_theme.bind('click', self.toggle_theme)
     self.btn_reset.bind('click', self.on_reset)
+    self.btn_clear.bind('click', self.on_clear)
     self.btn_about.bind('click', self.on_about)
+    self.btn_close_about.bind('click', self.on_close_about)
+    self.editor.bind('blur', self.on_blur)
     window.onresize = self.on_window_resize
     window.onmouseup = self.end_resize
 
@@ -172,14 +210,14 @@ class App:
       self.splitter.style.cursor = 'ew-resize'
 
   def resize(self, evt):
-    if evt.clientX > self.mainframe.clientWidth - self.MIN_WIDTH_OUTPUT:
-      editor_width = self.mainframe.clientWidth - self.MIN_WIDTH_OUTPUT
-    elif evt.clientX < self.MIN_WIDTH_EDITOR:
-      editor_width = self.MIN_WIDTH_EDITOR
+    if evt.clientX > self.mainframe.clientWidth - App.MIN_WIDTH_OUTPUT:
+      editor_width = self.mainframe.clientWidth - App.MIN_WIDTH_OUTPUT
+    elif evt.clientX < App.MIN_WIDTH_EDITOR:
+      editor_width = App.MIN_WIDTH_EDITOR
     else:
       editor_width = evt.clientX
-    output_width = self.mainframe.clientWidth - (editor_width + self.SPLITTER_WIDTH)
-    self.mainframe.style.gridTemplateColumns = f'{editor_width}px {self.SPLITTER_WIDTH}px {output_width}px'
+    output_width = self.mainframe.clientWidth - (editor_width + App.SPLITTER_WIDTH)
+    self.mainframe.style.gridTemplateColumns = f'{editor_width}px {App.SPLITTER_WIDTH}px {output_width}px'
 
   def on_resize(self, evt):
     if self.is_resizing:
@@ -188,11 +226,31 @@ class App:
 
   def on_window_resize(self, evt):
     editor_width = self.container_edit.clientWidth + 2 # Border 1 x 2
-    output_width = self.mainframe.clientWidth - (self.SPLITTER_WIDTH + editor_width)
-    self.mainframe.style.gridTemplateColumns = f'{editor_width}px {self.SPLITTER_WIDTH}px {output_width}px'
+    output_width = self.mainframe.clientWidth - (App.SPLITTER_WIDTH + editor_width)
+    self.mainframe.style.gridTemplateColumns = f'{editor_width}px {App.SPLITTER_WIDTH}px {output_width}px'
 
   def reset_size(self):
-    self.mainframe.style.gridTemplateColumns = f'1fr {self.SPLITTER_WIDTH}px 1fr'
+    self.mainframe.style.gridTemplateColumns = f'1fr {App.SPLITTER_WIDTH}px 1fr'
+
+  def on_blur(self, *args):
+    self.save()
+
+  def save(self):
+    code = self.editor.getValue()
+    if storage is not None and storage.get(App.STORE_EDITOR_CODE) != code:
+      storage[App.STORE_EDITOR_CODE] = code
+
+  def update_theme_button(self, theme):
+    self.editor.setTheme(theme)
+    self.btn_theme.text = 'Dark' if theme == App.LIGHT_THEME else "Light"
+
+  def toggle_theme(self, evt):
+    theme = App.DARK_THEME
+    if self.editor.getTheme() == theme:
+        theme = App.LIGHT_THEME
+    self.update_theme_button(theme)
+    if storage is not None:
+       storage[App.STORE_EDITOR_THEME] = theme
 
 class EditorFrame:
   def __init__(self):
@@ -201,17 +259,15 @@ class EditorFrame:
     self.init_editor()
 
   def init_editor(self):
-    self.editor.setTheme('ace/theme/eclipse')
-    #self.editor.setTheme('ace/theme/monokai')
     session = self.editor.getSession()
     session.setMode("ace/mode/python")
     self.editor.setFontSize(14)
     self.editor.setOptions({
       'enableLiveAutocompletion': True,
+      'enableSnippets': True,
       'highlightActiveLine': True,
       'highlightSelectedWord': True
     })
-    self.editor.setValue(CODE_EXAMPLE)
     self.editor.scrollToRow(0)
     self.editor.gotoLine(0)
 

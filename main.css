@@ -16,7 +16,7 @@ body{
     'toolbar toolbar toolbar'
     'container-edit splitter container-out'
     'statusbar statusbar statusbar';
-  grid-template-rows: 40px 1fr 40px;
+  grid-template-rows: 60px 1fr 30px;
   grid-template-columns: 1fr 8px 1fr;	
 }
 
@@ -61,7 +61,6 @@ body{
   grid-template-areas: 'stb_status stb_copy';
   grid-template-columns: 1fr 1fr;
   font-size: 12px;
-  font-family: 'Oxygen Mono', Consolas, 'Liberation Mono', 'DejaVu Sans Mono', monospace;
 }
 
 #stb-status {

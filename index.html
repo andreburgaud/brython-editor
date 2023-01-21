@@ -1,45 +1,61 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link href="main.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.14.0/ace.min.js" integrity="sha512-s57ywpCtz+4PU992Bg1rDtr6+1z38gO2mS92agz2nqQcuMQ6IvgLWoQ2SFpImvg1rbgqBKeSEq0d9bo9NtBY0w==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.14.0/ext-whitespace.min.js" integrity="sha512-L8DnrN/9xeOVTDlIb50+rDPaJmFNVZZiKtzCS8wLVBlZpOok+C2vJywi3pTn14tPhjA/5xXUB1UonCBzQnEL7A==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.14.0/ext-language_tools.min.js" integrity="sha512-o/VD0e6Ld6RjhcgZJWVv/1MfV03mjhk3zWBA41/6iYShAb/3ruD8wlSU+HyqBYlLr+IAwdBKx4Kl4w08ROJuTw==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.14.0/mode-python.min.js" integrity="sha512-W1k0SdTb7FU3nxWYkBLQVhTC8b8BU6Je3deBSnLm/dSQ956goMMnL+NYi2SXse1i7k0eUJNMNycTvbEdrJmEFw==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.14.0/snippets/python.min.js" integrity="sha512-LifkJxLcSYEeOkysQ2pkyMTgYnKZshPVvGF+69rLkhmX57nZtAcaGobw8bCpOAXqRQaKR/Ky9ShM98qCAmbJqQ==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.14.0/ext-beautify.min.js" integrity="sha512-uXfi0GwpQZcHIhGOMMHeNYtBSjt7qDXjXHmjShWSp+RWMSmjdy69N7M/pufinvQLv6rSYlpbSXqSnLRzWE952w==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.14.0/theme-chrome.min.js" integrity="sha512-IoW2AJDFMQYyoy2/RXHXuejhOyYdER5cWEa5daKogz7AS2xou/WCCpghsgBDZG3/V4VCDuJw2RvVhUW81bhlDQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.14.0/theme-chaos.min.js" integrity="sha512-zRceNZ6jpn90+tWOxxv1AaNt5mSHg8O5OLR9mp4Q1KCIrhRyHfR0o4D/RH3ET4lYu5aRM50xK0J2wJo0IYhZVA==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css" integrity="sha512-HqxHUkJM0SYcbvxUw5P60SzdOTy/QVwA1JJrvaXJv4q7lmbDZCmZaqz01UPOaQveoxfYRv1tHozWGPMcuTBuvQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma-tooltip/1.2.0/bulma-tooltip.min.css" integrity="sha512-eQONsEIU2JzPniggWsgCyYoASC8x8nS0w6+e5LQZbdvWzDUVfUh+vQZFmB2Ykj5uqGDIsY7tSUCdTxImWBShYg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script type="text/javascript" src="/brython.js" defer></script>
     <script type="text/javascript" src="/brython_stdlib.js" defer></script>
-
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/ace.min.js" integrity="sha256-qCCcAHv/Z0u7K344shsZKUF2NR+59ooA3XWRj0LPGIQ=" crossorigin="anonymous" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/ext-whitespace.min.js" integrity="sha256-1aeVCHOsjaqqX6uhckovT0ddDmfnK3p+UQpuWxXwVGY=" crossorigin="anonymous" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/ext-language_tools.min.js" integrity="sha256-KFXf4u8zJlXEUJckmmZbITzYENXMuqPqyrlscCKeqFU=" crossorigin="anonymous" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/mode-python.min.js" integrity="sha256-dgu7+RV2rby44bxsuQuo2Rm+pG0JXtShrFWStI0DrC4=" crossorigin="anonymous" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/theme-monokai.min.js" integrity="sha256-QjbDa92d4Q3oBUXnKXRhOrz8eONu3odsIlDHnNwg4y4=" crossorigin="anonymous" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/theme-eclipse.min.js" integrity="sha256-PKCwSrsW+NaJjhLX139mbUY/Atk45WHvHWpbvoAh5Ww=" crossorigin="anonymous" defer></script>
-    <link href="main.css" rel="stylesheet" type="text/css">
   </head>
 
     <!-- <script type="text/python" class="webworker" src="/execute.py" id="worker"></script> -->
-    <body onload="brython(2)">
+    <body onload="brython(0)">
 <script type="text/python3" class="webworker" src="/execute.py" id="worker"></script>
 <script type="text/python3" src="/app.py" id="__main__"></script>
-</script>
-    <div id="mainframe">
-      <div id="toolbar">
-        <div id="tlb-editor">
-          <button id="btn-run">Run</button>
-          <button id="btn-reset">Reset</button>
-          <button id="btn-terminate">Terminate</button>
-        </div>
-        <div id="tlb-output">
-          <button id="btn-clear">Clear</button>
-          <button id="btn-help">Help</button>
-          <button id="btn-about">About</button>
-        </div>
+  <div id="mainframe">
+    <div id="toolbar">
+      <div id="tlb-editor">
+        <button class="button is-primary has-tooltip-right" id="btn-run" data-tooltip="Execute Python code">Run</button>
+        <button class="button has-tooltip-right" id="btn-theme" data-tooltip="Switch editor theme (light/dark)">Light</button>
+        <button class="button has-tooltip-right" id="btn-reset" data-tooltip="Reload code example">Reset</button>
       </div>
-      <div id="splitter"></div>
-      <div id="container-edit"></div>
-      <div id="container-out">
-        <textarea id="output" autocomplete="off" readonly></textarea>
-      </div>
-      <div id="statusbar">
-        <div id="stb-status"></div>
-        <div id="stb-copy">Copyright &#169; 2020 <a href="https://www.burgaud.com" target="_blank">Andr&#233; Burgaud</a></div>
+      <div id="tlb-output">
+        <button class="button has-tooltip-left" id="btn-clear" data-tooltip="Clear ouput pane">Clear</button>
+        <button class="button modal-button" id="btn-about" data-target="modal" aria-haspopup="true">About</button>
       </div>
     </div>
+    <div id="splitter"></div>
+    <div id="container-edit"></div>
+    <div id="container-out">
+      <textarea id="output" autocomplete="off" readonly></textarea>
+    </div>
+    <div id="statusbar">
+      <div id="stb-status"></div>
+      <div id="stb-copy">Copyright &#169; 2020-2023 <a href="https://www.burgaud.com" target="_blank">Andr&#233; Burgaud</a></div>
+    </div>
+  </div>
+  <div class="modal" id="modal-about">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">About</p>
+      </header>
+      <section class="modal-card-body">
+        <p><b><a href="https://github.com/andreburgaud/brython-scratchpad" target="_blank">Brython ScratchPad</a></b></p>
+        <p><a href="https://github.com/andreburgaud/brython-scratchpad/blob/main/LICENSE" target="_blank">MIT License</a></p>
+        <p>Copyright &#169; 2020-2023 <a href="https://burgaud.com" target="_blank">Andr&#233; Burgaud</a></p>
+      </section>
+      <footer class="modal-card-foot">
+        <button class="button is-success" id="btn-close-about">Ok</button>
+      </footer>
+  </div>
+</div>
 </body>
