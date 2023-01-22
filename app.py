@@ -43,6 +43,9 @@ class App:
     self.modal_config = document['modal-config']
     self.sel_theme = document['sel-theme']
 
+    self.burger = document['burger']
+    self.menu = document['menu']
+
     if App.EXECUTOR:
       self.btn_terminate = document['btn-terminate']
       self.executor = self.create_executor()
@@ -215,6 +218,12 @@ class App:
     window.onresize = self.on_window_resize
     window.onmouseup = self.end_resize
 
+    self.burger.bind('click', self.on_burger)
+
+  def on_burger(self, evt):
+    self.menu.classList.toggle('is-active')
+    self.burger.classList.toggle('is-active')
+
   def start_resize(self, evt):
     self.is_resizing = True
     #self.mainframe.style.cursor = 'col-resize'
@@ -256,18 +265,6 @@ class App:
     if storage is not None and storage.get(App.STORE_EDITOR_CODE) != code:
       storage[App.STORE_EDITOR_CODE] = code
 
-  # def update_theme_button(self, theme):
-  #   self.editor.setTheme(theme)
-  #   #self.btn_theme.text = 'Dark' if theme == App.LIGHT_THEME else "Light"
-
-  # def toggle_theme(self, evt):
-  #   theme = App.DARK_THEME
-  #   if self.editor.getTheme() == theme:
-  #       theme = App.LIGHT_THEME
-  #   self.update_theme_button(theme)
-  #   if storage is not None:
-  #      storage[App.STORE_EDITOR_THEME] = theme
-
   def set_theme(self, theme):
     self.editor.setTheme(f'ace/theme/{theme}')
     if storage is not None:
@@ -280,7 +277,7 @@ class App:
 
 class EditorFrame:
   def __init__(self):
-    window.ace.config.set('basePath', 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11')
+    window.ace.config.set('basePath', 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.14.0')
     self.editor = window.ace.edit('container-edit')
     self.init_editor()
 

@@ -15,12 +15,12 @@
 <script type="text/python3" src="/app.py" id="__main__"></script>
   <div id="mainframe">
     <div id="toolbar">
-      <nav class="navbar is-transparent" role="navigation" aria-label="main navigation">
+      <nav class="navbar is-white" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <a class="navbar-item" href="/">
           <img src="/images/python-powered-w-70x28.png" alt="Python ScratchPad" width="70" height="28">
         </a>
-        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="menu">
+        <a role="button" class="navbar-burger" id="burger" aria-label="menu" aria-expanded="false" data-target="menu">
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
@@ -39,7 +39,7 @@
             <div class="buttons">
               <a class="button modal-button has-tooltip-left" id="btn-clear" data-tooltip="Clear output pane" aria-haspopup="true">Clear</a>
               <a class="button modal-button has-tooltip-left" id="btn-config" data-tooltip="Editor Configuration" aria-haspopup="true">Preferences</a>
-              <a class="button modal-button has-tooltip-left" id="btn-about" data-tooltip="About PyScratchPad" aria-haspopup="true">About</a>
+              <a class="button modal-button has-tooltip-left is-info" id="btn-about" data-tooltip="About PyScratchPad" aria-haspopup="true">About</a>
             </div>
           </div>
         </div>
@@ -60,16 +60,27 @@
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">About</p>
+        <p class="modal-card-title">Brython ScratchPad</p>
+        <button class="delete" id="btn-close-about" aria-label="close"></button>
       </header>
       <section class="modal-card-body">
-        <p><b><a href="https://github.com/andreburgaud/brython-scratchpad" target="_blank">Brython ScratchPad</a></b></p>
-        <p><a href="https://github.com/andreburgaud/brython-scratchpad/blob/main/LICENSE" target="_blank">MIT License</a></p>
-        <p>Copyright &#169; 2020-2023 <a href="https://burgaud.com" target="_blank">Andr&#233; Burgaud</a></p>
+        <div class="content">
+          <article class="message is-info">
+            <div class="message-body">
+              <a href="https://github.com/andreburgaud/brython-scratchpad" target="_blank">Brython ScratchPad</a><br/>
+              <a href="https://github.com/andreburgaud/brython-scratchpad/blob/main/LICENSE" target="_blank">MIT License</a><br/>
+              Copyright &#169; 2020-2023 <a href="https://burgaud.com" target="_blank">Andr&#233; Burgaud</a>
+            </div>
+          </article>
+          <h3>Third Party Licenses</h3>
+            <ul>
+              <li><strong><a href="https://brython.info/" target="_blank">Brython</a></strong>: <a href="https://github.com/brython-dev/brython/blob/master/LICENCE.txt" target="_blank">BSD 3-Clause License</a></li>
+              <li><strong><a href="https://ace.c9.io/" target="_blank">Ace Editor</a></strong>: <a href="https://github.com/ajaxorg/ace/blob/master/LICENSE" target="_blank">BSD License</a></li>
+              <li><strong><a href="https://bulma.io/" target="_blank">Bulma</a></strong>: <a href="https://github.com/jgthms/bulma/blob/master/LICENSE" target=_blank">MIT License</a></li>
+              <li><strong><a href="https://www.python.org/community/logos/" target="_blank">Python Logos</a></strong>: <a href="https://www.python.org/psf/trademarks/" target="_blank">Trademark of the Python Software Foundation<a/></li>
+            </ul>
+        </div>
       </section>
-      <footer class="modal-card-foot">
-        <button class="button is-success" id="btn-close-about">Ok</button>
-      </footer>
     </div>
   </div>
   <div class="modal" id="modal-config">
@@ -77,6 +88,7 @@
     <div class="modal-card">
       <header class="modal-card-head">
         <p class="modal-card-title">Preferences</p>
+        <button class="delete" id="btn-close-config" aria-label="close"></button>
       </header>
       <section class="modal-card-body">
       <div class="field">
@@ -131,9 +143,6 @@
         </div>
       </div>
       </section>
-      <footer class="modal-card-foot">
-        <button class="button is-success" id="btn-close-config">Ok</button>
-      </footer>
     </div>
   </div>
 </body>
