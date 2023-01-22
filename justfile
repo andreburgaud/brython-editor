@@ -1,6 +1,6 @@
 #!/usr/bin/env just --justfile
 
-VERSION := "0.2.0"
+VERSION := "0.3.0"
 
 alias sds := start-dev-server
 alias ghp := github-push

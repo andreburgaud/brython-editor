@@ -1,30 +1,21 @@
 import sys, time
-from browser import worker, document, timer, window
-import storage
-import about # about binding initializiation
+
+from browser import document, timer, window
+
 import config
 import editor
 
-CODE_EXAMPLE = '''# This is a Python comment\nprint('Hello Python World!')'''
 MIN_WIDTH_EDITOR = 150
 MIN_WIDTH_OUTPUT = 100
 SPLITTER_WIDTH = 8
-EXECUTOR = False
-DEFAULT_THEME = "ambiance"
-DEFAULT_FONT_SIZE = 14
-STORE_EDITOR_CODE = "brython_scratchpad_code"
-STORE_EDITOR_THEME = "brython_scratchpad_theme"
-STORE_EDITOR_FONT_SIZE = "brython_scratchpad_font_size"
 
 class App:
 
-  def __init__(self, editor):
-    self.theme = DEFAULT_THEME
-    self.font_size = DEFAULT_FONT_SIZE
+  def __init__(self, cfg: config.Config ):
     self.is_resizing = False
-    self.editor = editor
+    self.editor = cfg.editor
     self.init_editor()
-    self.session = editor.getSession()
+    self.session = self.editor.getSession()
     self.mainframe = document['mainframe']
     self.toolbar = document['toolbar']
     self.container_edit = document['container-edit']
@@ -38,41 +29,14 @@ class App:
     self.burger = document['burger']
     self.menu = document['menu']
 
-    if EXECUTOR:
-      self.btn_terminate = document['btn-terminate']
-      self.executor = self.create_executor()
-      self.create_executor()
-
     self.bind_events()
 
   def init_editor(self):
-    code = storage.get_value(STORE_EDITOR_CODE, CODE_EXAMPLE)
-    self.editor.setValue(code)
-
-    font_size = storage.get_value(STORE_EDITOR_FONT_SIZE, DEFAULT_FONT_SIZE)
-    self.set_font_size(int(font_size))
-
-    theme = storage.get_value(STORE_EDITOR_THEME, DEFAULT_THEME)
-    self.set_theme(theme)
-
+    self.editor.setValue(cfg.code)
+    self.editor.setFontSize(cfg.font_size)
+    self.editor.setTheme(f'ace/theme/{cfg.theme}')
     self.editor.scrollToRow(0)
     self.editor.gotoLine(0)
-
-  def set_theme(self, theme):
-    self.editor.setTheme(f'ace/theme/{theme}')
-    storage.set_value(STORE_EDITOR_THEME, theme)
-    self.theme = theme
-
-  def set_font_size(self, font_size):
-    # TODO: consider updating output pane font size
-    self.editor.setFontSize(font_size)
-    storage.set_value(STORE_EDITOR_FONT_SIZE, str(font_size))
-    self.font_size = font_size
-
-  def create_executor(self):
-    w = worker.Worker('worker')
-    w.bind('message', self.on_message)
-    return w
 
   def write_out(self, *args):
     self.output.value += ''.join(args)
@@ -113,26 +77,14 @@ class App:
     self.start_progress()
     timer.set_timeout(self.exec_code, 10)
 
-  def on_terminate(self, evt):
-    print("Kill the executor")
-    self.executor.terminate()
-    self.executor = self.create_executor()
-
-  def on_message(self, evt):
-    """Message from executor worker"""
-    print(evt.data)
-
   def exec_code(self):
     src = self.editor.getValue()
     line_count = len(src.split('\n'))
     t0 = time.perf_counter()
 
     try:
-      if EXECUTOR:
-        self.executor.send(src)
-      else:
-        ns = {'__name__':'__main__'}
-        exec(src, ns)
+      ns = {'__name__':'__main__'}
+      exec(src, ns)
 
     except SyntaxError as err:
       self.handle_syntax_error(line_count)
@@ -141,7 +93,6 @@ class App:
       self.handle_error(line_count)
 
     except:
-      # TODO
       print("Unknown exception")
 
     else:
@@ -185,10 +136,7 @@ class App:
     self.splitter.bind('mousedown', self.start_resize)
     self.mainframe.bind('mousemove', self.on_resize)
     self.btn_run.bind('click', self.on_run)
-    if EXECUTOR:
-      self.btn_terminate.bind('click', self.on_terminate)
     self.btn_clear.bind('click', self.on_clear)
-
     self.editor.bind('blur', self.on_blur)
     window.onresize = self.on_window_resize
     window.onmouseup = self.end_resize
@@ -201,7 +149,6 @@ class App:
 
   def start_resize(self, evt):
     self.is_resizing = True
-    #self.mainframe.style.cursor = 'col-resize'
     self.splitter.style.cursor = 'col-resize'
 
   def end_resize(self, evt):
@@ -236,11 +183,13 @@ class App:
     self.save()
 
   def save(self):
-    code = self.editor.getValue()
-    storage.set_value(STORE_EDITOR_CODE, code)
+    self.config.code = self.editor.getValue()
 
-editor_frame = editor.Frame()
-app = App(editor_frame.editor)
-config.Config(app)
+
+frame = editor.Frame()
+cfg = config.Config(frame.editor)
+cfg_dlg = config.Dialog(cfg)
+app = App(cfg)
+
 sys.stdout.write = app.write_out
 sys.stderr.write = app.write_err
