@@ -17,7 +17,7 @@ Then, point a browser to http://localhost:8000
 If you are using [Docker](https://www.docker.com/), you can start the **Brython ScratchPad** server as follows:
 
 ```
-$ docker run --rm -p:8080:80 andreburgaud/brython-scratchpad
+$ docker run --rm -p 8080:80 andreburgaud/brython-scratchpad
 ```
 
 Then, point a browser to http://localhost:8080
