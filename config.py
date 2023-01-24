@@ -10,9 +10,10 @@ DEFAULT_THEME = "ambiance"
 DEFAULT_FONT_SIZE = 14
 DEFAULT_CODE = '''# This is a Python comment\nprint('Hello Python World!')'''
 
-STORE_EDITOR_CODE = "brython_scratchpad_code"
-STORE_EDITOR_THEME = "brython_scratchpad_theme"
-STORE_EDITOR_FONT_SIZE = "brython_scratchpad_font_size"
+APP = "python_scratchpad"
+STORE_CODE = f"{APP}_code"
+STORE_THEME = f"{APP}_theme"
+STORE_FONT_SIZE = f"{APP}_font_size"
 
 
 def get_storage_value(key, default_value):
@@ -29,9 +30,9 @@ class Config:
 
     def __init__(self, editor):
         self.editor = editor
-        self._font_size = int(get_storage_value(STORE_EDITOR_FONT_SIZE, DEFAULT_FONT_SIZE))
-        self._theme = get_storage_value(STORE_EDITOR_THEME, DEFAULT_THEME)
-        self._code = get_storage_value(STORE_EDITOR_CODE, DEFAULT_CODE)
+        self._font_size = int(get_storage_value(STORE_FONT_SIZE, DEFAULT_FONT_SIZE))
+        self._theme = get_storage_value(STORE_THEME, DEFAULT_THEME)
+        self._code = get_storage_value(STORE_CODE, DEFAULT_CODE)
 
     @property
     def font_size(self) -> int:
@@ -41,7 +42,7 @@ class Config:
     def font_size(self, value: int) -> None:
         self._font_size = value
         self.editor.setFontSize(value)
-        set_storage_value(STORE_EDITOR_FONT_SIZE, str(value))
+        set_storage_value(STORE_FONT_SIZE, str(value))
 
     @property
     def theme(self) -> str:
@@ -50,7 +51,7 @@ class Config:
     @theme.setter
     def theme(self, value: str) -> None:
         self._theme = value
-        set_storage_value(STORE_EDITOR_THEME, value)
+        set_storage_value(STORE_THEME, value)
         self.editor.setTheme(f'ace/theme/{value}')
 
     @property
@@ -60,7 +61,7 @@ class Config:
     @code.setter
     def code(self, value: str) -> None:
         self._code = value
-        set_storage_value(STORE_EDITOR_CODE, self._code)
+        set_storage_value(STORE_CODE, value)
 
 
 class Dialog:

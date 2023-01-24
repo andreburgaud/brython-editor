@@ -13,6 +13,7 @@ class App:
 
   def __init__(self, cfg: config.Config ):
     self.is_resizing = False
+    self.config = cfg
     self.editor = cfg.editor
     self.init_editor()
     self.session = self.editor.getSession()
@@ -32,9 +33,9 @@ class App:
     self.bind_events()
 
   def init_editor(self):
-    self.editor.setValue(cfg.code)
-    self.editor.setFontSize(cfg.font_size)
-    self.editor.setTheme(f'ace/theme/{cfg.theme}')
+    self.editor.setValue(self.config.code)
+    self.editor.setFontSize(self.config.font_size)
+    self.editor.setTheme(f'ace/theme/{self.config.theme}')
     self.editor.scrollToRow(0)
     self.editor.gotoLine(0)
 

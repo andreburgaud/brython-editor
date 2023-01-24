@@ -1,8 +1,8 @@
 #!/usr/bin/env just --justfile
 
 DOCKER_ACCOUNT := "andreburgaud"
-VERSION := "0.3.0"
-PROJECT := "brython-scratchpad"
+VERSION := "0.4.0"
+PROJECT := "python-scratchpad"
 
 alias sds := start-dev-server
 alias ghp := github-push
