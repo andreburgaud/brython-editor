@@ -1,6 +1,6 @@
 FROM nginx:1.23.3-alpine
 
-COPY *.py index.html main.css favicon.ico /usr/share/nginx/html/
+COPY *.py index.html main.css favicon.ico LICENSE /usr/share/nginx/html/
 
 ADD images /usr/share/nginx/html/images
 
