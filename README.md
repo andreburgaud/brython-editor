@@ -7,7 +7,7 @@
 In the working directory, start a web server as follows:
 
 ```
-$ python3 -m http.server
+$ python3 -m http.server --directory site
 ```
 
 Then, point a browser to http://localhost:8000

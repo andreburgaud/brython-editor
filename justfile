@@ -1,23 +1,24 @@
 #!/usr/bin/env just --justfile
 
 DOCKER_ACCOUNT := "andreburgaud"
-VERSION := "0.4.0"
+VERSION := "0.5.0"
 PROJECT := "python-scratchpad"
 
-alias sds := start-dev-server
-alias ghp := github-push
+alias s := serve
 
 alias db := docker-build
 alias dr := docker-run
 alias dp := docker-push
+
+alias ghp := github-push
 
 # Default recipe (this list)
 default:
     @just --list
 
 # Start basic dev server for development
-start-dev-server:
-    python3 -m http.server
+serve:
+    python3 -m http.server --directory site
 
 # Push and tag changes to github
 github-push:
