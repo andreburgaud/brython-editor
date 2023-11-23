@@ -30,7 +30,7 @@ class App:
     self.btn_clear = document['btn-clear']
 
     self.burger = document['burger']
-    self.menu = document['menu']
+    self.menu = document['navMenu']
 
     self.bind_events()
 
@@ -137,7 +137,11 @@ class App:
 
   def bind_events(self):
     self.splitter.bind('mousedown', self.start_resize)
+    self.splitter.bind('touchstart', self.start_resize)
+    self.splitter.bind('touchend', self.end_resize)
+    self.splitter.bind('touchcancel', self.end_resize)
     self.mainframe.bind('mousemove', self.on_resize)
+    self.splitter.bind('touchmove', self.on_resize)
     self.btn_run.bind('click', self.on_run)
     self.btn_clear.bind('click', self.on_clear)
     self.editor.bind('blur', self.on_blur)
@@ -149,6 +153,7 @@ class App:
   def on_burger(self, evt):
     self.menu.classList.toggle('is-active')
     self.burger.classList.toggle('is-active')
+    self.resizeMobile()
 
   def start_resize(self, evt):
     self.is_resizing = True
@@ -160,14 +165,27 @@ class App:
       self.splitter.style.cursor = 'ns-resize'
 
   def resize(self, evt):
-    if evt.clientY > self.mainframe.clientHeight - (MIN_HEIGHT_OUTPUT + STATUSBAR_HEIGHT):
+    if evt.type == 'mousemove':
+      clienty = evt.clientY
+    elif evt.type == 'touchmove':
+      clienty = evt.touches[0].clientY
+    else:
+      print(evt.type)
+      return
+    if clienty > self.mainframe.clientHeight - (MIN_HEIGHT_OUTPUT + STATUSBAR_HEIGHT):
       editor_height = self.mainframe.clientHeight - (MIN_HEIGHT_OUTPUT + STATUSBAR_HEIGHT)
-    elif evt.clientY < (MIN_HEIGHT_EDITOR + TOOLBAR_HEIGHT):
+    elif clienty < (MIN_HEIGHT_EDITOR + TOOLBAR_HEIGHT):
       editor_height = MIN_HEIGHT_EDITOR
     else:
-      editor_height = evt.clientY - TOOLBAR_HEIGHT
+      editor_height = clienty - TOOLBAR_HEIGHT
     output_height = self.mainframe.clientHeight - (TOOLBAR_HEIGHT + editor_height + SPLITTER_HEIGHT + STATUSBAR_HEIGHT)
     self.mainframe.style.gridTemplateRows = f'{TOOLBAR_HEIGHT}px {editor_height}px {SPLITTER_HEIGHT}px {output_height}px {STATUSBAR_HEIGHT}px'
+
+  def resizeMobile(self):
+    editor_height = self.container_edit.clientHeight + 2 # Border 1 x 2
+    menu_height = self.menu.clientHeight + TOOLBAR_HEIGHT
+    output_height = self.mainframe.clientHeight - (menu_height + editor_height + SPLITTER_HEIGHT + STATUSBAR_HEIGHT)
+    self.mainframe.style.gridTemplateRows = f'{menu_height}px {editor_height}px {SPLITTER_HEIGHT}px {output_height}px {STATUSBAR_HEIGHT}px'
 
   def on_resize(self, evt):
     if self.is_resizing:
