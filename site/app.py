@@ -5,9 +5,11 @@ from browser import document, timer, window
 import config
 import editor
 
-MIN_WIDTH_EDITOR = 150
-MIN_WIDTH_OUTPUT = 100
-SPLITTER_WIDTH = 8
+MIN_HEIGHT_EDITOR = 40
+MIN_HEIGHT_OUTPUT = 50
+SPLITTER_HEIGHT = 8
+TOOLBAR_HEIGHT = 60
+STATUSBAR_HEIGHT = 30
 
 class App:
 
@@ -150,22 +152,22 @@ class App:
 
   def start_resize(self, evt):
     self.is_resizing = True
-    self.splitter.style.cursor = 'col-resize'
+    self.splitter.style.cursor = 'ns-resize'
 
   def end_resize(self, evt):
     if self.is_resizing:
       self.is_resizing = False
-      self.splitter.style.cursor = 'ew-resize'
+      self.splitter.style.cursor = 'ns-resize'
 
   def resize(self, evt):
-    if evt.clientX > self.mainframe.clientWidth - MIN_WIDTH_OUTPUT:
-      editor_width = self.mainframe.clientWidth - MIN_WIDTH_OUTPUT
-    elif evt.clientX < MIN_WIDTH_EDITOR:
-      editor_width = MIN_WIDTH_EDITOR
+    if evt.clientY > self.mainframe.clientHeight - (MIN_HEIGHT_OUTPUT + STATUSBAR_HEIGHT):
+      editor_height = self.mainframe.clientHeight - (MIN_HEIGHT_OUTPUT + STATUSBAR_HEIGHT)
+    elif evt.clientY < (MIN_HEIGHT_EDITOR + TOOLBAR_HEIGHT):
+      editor_height = MIN_HEIGHT_EDITOR
     else:
-      editor_width = evt.clientX
-    output_width = self.mainframe.clientWidth - (editor_width + SPLITTER_WIDTH)
-    self.mainframe.style.gridTemplateColumns = f'{editor_width}px {SPLITTER_WIDTH}px {output_width}px'
+      editor_height = evt.clientY - TOOLBAR_HEIGHT
+    output_height = self.mainframe.clientHeight - (TOOLBAR_HEIGHT + editor_height + SPLITTER_HEIGHT + STATUSBAR_HEIGHT)
+    self.mainframe.style.gridTemplateRows = f'{TOOLBAR_HEIGHT}px {editor_height}px {SPLITTER_HEIGHT}px {output_height}px {STATUSBAR_HEIGHT}px'
 
   def on_resize(self, evt):
     if self.is_resizing:
@@ -173,12 +175,10 @@ class App:
       evt.preventDefault()
 
   def on_window_resize(self, evt):
-    editor_width = self.container_edit.clientWidth + 2 # Border 1 x 2
-    output_width = self.mainframe.clientWidth - (SPLITTER_WIDTH + editor_width)
-    self.mainframe.style.gridTemplateColumns = f'{editor_width}px {SPLITTER_WIDTH}px {output_width}px'
+    self.resize(evt)
 
   def reset_size(self):
-    self.mainframe.style.gridTemplateColumns = f'1fr {SPLITTER_WIDTH}px 1fr'
+    self.mainframe.style.gridTemplateColumns = f'{TOOLBAR_HEIGHT}px 1fr {SPLITTER_HEIGHT}px 1fr {STATUSBAR_HEIGHT}px'
 
   def on_blur(self, *args):
     self.save()

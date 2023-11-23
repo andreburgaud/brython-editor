@@ -13,20 +13,18 @@ body{
   height: 100%;
   display: grid;
   grid-template-areas:
-    'toolbar toolbar toolbar'
-    'container-edit splitter container-out'
-    'statusbar statusbar statusbar';
-  grid-template-rows: 60px 1fr 30px;
-  grid-template-columns: 1fr 8px 1fr;	
+    'toolbar toolbar'
+    'container-edit container-edit'
+    'splitter splitter'
+    'container-out container-out'
+    'statusbar statusbar';
+  grid-template-rows: 60px 1fr 8px 1fr 30px;
+  grid-template-columns: 1fr 1fr;
 }
 
 #toolbar {
-  /* padding: 10px; */
   width: 100%;
-  /* background-color: #EEE; */
-  grid-column-start: 1;
-  grid-column-end: span col3-start;
-  grid-areas: 'toolbar';
+  grid-area: toolbar;
   overflow: hidden;
   overflow-y: hidden; /* Remove y scroll bar */
 }
@@ -38,9 +36,9 @@ body{
 
 #splitter {
   grid-area: splitter;
-  cursor: ew-resize;
+  cursor: ns-resize;
   background-color: #EEE;
-  background-image: url(images/vertical.png);
+  background-image: url(images/horizontal.png);
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -51,9 +49,10 @@ body{
   overflow: auto;
   grid-area: statusbar;
   display: grid;
-  grid-template-areas: 'stb_status stb_copy';
+  grid-template-areas: 'stb-status stb-copy';
   grid-template-columns: 1fr 1fr;
   font-size: 12px;
+  overflow-y: hidden; /* Remove y scroll bar */
 }
 
 #stb-status {}
