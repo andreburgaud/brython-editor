@@ -13,7 +13,7 @@ STATUSBAR_HEIGHT = 30
 
 class App:
 
-  def __init__(self, cfg: config.Config ):
+  def __init__(self, cfg: config.Config):
     self.is_resizing = False
     self.config = cfg
     self.editor = cfg.editor
@@ -175,7 +175,9 @@ class App:
       evt.preventDefault()
 
   def on_window_resize(self, evt):
-    self.resize(evt)
+    editor_height = self.container_edit.clientHeight + 2 # Border 1 x 2
+    output_height = self.mainframe.clientHeight - (TOOLBAR_HEIGHT + editor_height + SPLITTER_HEIGHT + STATUSBAR_HEIGHT)
+    self.mainframe.style.gridTemplateRows = f'{TOOLBAR_HEIGHT}px {editor_height}px {SPLITTER_HEIGHT}px {output_height}px {STATUSBAR_HEIGHT}px'
 
   def reset_size(self):
     self.mainframe.style.gridTemplateColumns = f'{TOOLBAR_HEIGHT}px 1fr {SPLITTER_HEIGHT}px 1fr {STATUSBAR_HEIGHT}px'
