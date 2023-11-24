@@ -1,7 +1,7 @@
 #!/usr/bin/env just --justfile
 
 DOCKER_ACCOUNT := "andreburgaud"
-VERSION := "0.7.0"
+VERSION := "0.7.1"
 PROJECT := "python-scratchpad"
 
 alias s := serve

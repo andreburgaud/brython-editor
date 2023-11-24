@@ -1,8 +1,10 @@
 # Python ScratchPad (PyScratchPad)
 
-![image](https://github.com/andreburgaud/python-scratchpad/releases/download/0.3.0/Screenshot.from.2023-01-22.16-14-53.png)
+The production version of Python Scratchpad is available at https://pyscratchpad.com/.
 
-## Start Server
+![PyScratchPad Screenshot from 2023-11-23 19-50-58](https://github.com/andreburgaud/python-scratchpad/assets/6396088/027e4fbb-cbc8-4284-9c32-823797c60a58)
+
+# Local Server
 
 In the working directory, start a web server as follows:
 
@@ -12,7 +14,7 @@ $ python3 -m http.server --directory site
 
 Then, point a browser to http://localhost:8000
 
-## Docker
+# Docker
 
 If you are using [Docker](https://www.docker.com/), you can start the **Python ScratchPad** server as follows:
 
