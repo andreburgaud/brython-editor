@@ -1,7 +1,7 @@
 #!/usr/bin/env just --justfile
 
 DOCKER_ACCOUNT := "andreburgaud"
-VERSION := "0.7.1"
+VERSION := "0.8.0"
 PROJECT := "python-scratchpad"
 
 alias s := serve
@@ -43,3 +43,6 @@ docker-push:
 # Deploy site to prod
 deploy:
     wrangler pages deploy site --project-name python-scratchpad --branch main
+
+# Deploy all production artifacts (GitHub, Docker, Web Server)
+prod: github-push docker-build docker-push deploy
