@@ -9,7 +9,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.12.0/brython_stdlib.min.js" integrity="sha512-wwMw3wL04D0CqqQRJRYrFdjBo9jS3CzIWMjwOWwg5px60hgwAGoYchiGgSMghQqPNUk6QdjXN11BtB+XDmVW1g==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.30.0/ace.min.js" integrity="sha512-lwC0l9krGlq0b9AQ2sQ5nftG8CYsJnp35DZrNmMH5i09vPo6ZeBLV0OEyCRhSByTk1l6sV6wMa7inlMjSsQAGA==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css" integrity="sha512-HqxHUkJM0SYcbvxUw5P60SzdOTy/QVwA1JJrvaXJv4q7lmbDZCmZaqz01UPOaQveoxfYRv1tHozWGPMcuTBuvQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma-tooltip/1.2.0/bulma-tooltip.min.css" integrity="sha512-eQONsEIU2JzPniggWsgCyYoASC8x8nS0w6+e5LQZbdvWzDUVfUh+vQZFmB2Ykj5uqGDIsY7tSUCdTxImWBShYg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body onload="brython(0)">
   <script type="text/python3" src="/about.py" id="about"></script>
@@ -31,18 +30,14 @@
         <div class="navbar-start">
           <div class="navbar-item">
             <div class="buttons">
-              <a class="button is-primary has-tooltip-right" id="btn-run" data-tooltip="Execute Python code"><strong>Run</strong></a>
+              <a class="button is-primary has-tooltip-right" id="btn-run"><strong>Run</strong></a>
+              <a class="button modal-button has-tooltip-right" id="btn-clear">Clear</a>
+              <a class="button modal-button has-tooltip-left" id="btn-config" aria-haspopup="dialog">Preferences</a>
+              <a class="button modal-button has-tooltip-left is-info" id="btn-about" aria-haspopup="dialog">About</a>
             </div>
           </div>
         </div>
         <div class="navbar-end">
-          <div class="navbar-item">
-            <div class="buttons">
-              <a class="button modal-button has-tooltip-right" id="btn-clear" data-tooltip="Clear output pane">Clear</a>
-              <a class="button modal-button has-tooltip-left" id="btn-config" data-tooltip="Edit Configuration" aria-haspopup="dialog">Preferences</a>
-              <a class="button modal-button has-tooltip-left is-info" id="btn-about" data-tooltip="About PyScratchPad" aria-haspopup="dialog">About</a>
-            </div>
-          </div>
         </div>
       </div>
       </nav>
