@@ -39,3 +39,7 @@ docker-run:
 docker-push:
     docker push {{DOCKER_ACCOUNT}}/{{PROJECT}}:{{VERSION}}
     docker push {{DOCKER_ACCOUNT}}/{{PROJECT}}:latest
+
+# Deploy site to prod
+deploy:
+    wrangler pages deploy site --project-name python-scratchpad --branch main
