@@ -32,6 +32,8 @@ class App:
     self.burger = document['burger']
     self.menu = document['navMenu']
 
+    self.google_mac_arm = self.is_google_mac_arm()
+
     self.bind_events()
 
   def init_editor(self):
@@ -40,6 +42,19 @@ class App:
     self.editor.setTheme(f'ace/theme/{self.config.theme}')
     self.editor.scrollToRow(0)
     self.editor.gotoLine(0)
+
+  def is_google_mac_arm(self):
+    # Overcome a bug when importing traceback with Google Chrome on Mac ARM
+    canvas = document.createElement('canvas')
+    try:
+      gl = canvas.getContext('webgl') or canvas.getContext('experimental-webgl')
+    except:
+      return False
+    debugInfo = gl.getExtension('WEBGL_debug_renderer_info')
+    renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)
+    if "Google" in window.navigator.vendor and "Apple M" in renderer:
+      return True
+    return False
 
   def write_out(self, *args):
     self.output.value += ''.join(args)
@@ -90,10 +105,16 @@ class App:
       exec(src, ns)
 
     except SyntaxError as err:
-      self.handle_syntax_error(line_count)
+      if self.google_mac_arm:
+        self.display_simple_error(err)
+      else:
+        self.handle_syntax_error(line_count)
 
     except Exception as exc:
-      self.handle_error(line_count)
+      if self.google_mac_arm:
+        self.display_simple_error(err)
+      else:
+        self.handle_error(line_count)
 
     except:
       print("Unknown exception")
@@ -134,6 +155,12 @@ class App:
       'text': "Error Message",
       'type': "error"
     }])
+
+  def display_simple_error(self, error_text): # Bug Chrome Mac ARM
+    self.output.style.color = 'red'
+    self.stb_status.style.color = 'red'
+    self.stb_status.text = error_text
+    print(error_text)
 
   def bind_events(self):
     self.splitter.bind('mousedown', self.start_resize)
