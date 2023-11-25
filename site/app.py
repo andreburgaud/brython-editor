@@ -33,6 +33,7 @@ class App:
     self.menu = document['navMenu']
 
     self.google_mac_arm = self.is_google_mac_arm()
+    self.is_mobile = False
 
     self.bind_events()
 
@@ -180,7 +181,8 @@ class App:
   def on_burger(self, evt):
     self.menu.classList.toggle('is-active')
     self.burger.classList.toggle('is-active')
-    self.resizeMobile()
+    self.is_mobile = True
+    self.resize_window()
 
   def start_resize(self, evt):
     self.is_resizing = True
@@ -208,21 +210,24 @@ class App:
     output_height = self.mainframe.clientHeight - (TOOLBAR_HEIGHT + editor_height + SPLITTER_HEIGHT + STATUSBAR_HEIGHT)
     self.mainframe.style.gridTemplateRows = f'{TOOLBAR_HEIGHT}px {editor_height}px {SPLITTER_HEIGHT}px {output_height}px {STATUSBAR_HEIGHT}px'
 
-  def resizeMobile(self):
-    editor_height = self.container_edit.clientHeight + 2 # Border 1 x 2
-    menu_height = self.menu.clientHeight + TOOLBAR_HEIGHT
-    output_height = self.mainframe.clientHeight - (menu_height + editor_height + SPLITTER_HEIGHT + STATUSBAR_HEIGHT)
-    self.mainframe.style.gridTemplateRows = f'{menu_height}px {editor_height}px {SPLITTER_HEIGHT}px {output_height}px {STATUSBAR_HEIGHT}px'
-
   def on_resize(self, evt):
     if self.is_resizing:
       self.resize(evt)
       evt.preventDefault()
 
   def on_window_resize(self, evt):
+    self.resize_window()
+
+  def resize_window(self):
     editor_height = self.container_edit.clientHeight + 2 # Border 1 x 2
-    output_height = self.mainframe.clientHeight - (TOOLBAR_HEIGHT + editor_height + SPLITTER_HEIGHT + STATUSBAR_HEIGHT)
-    self.mainframe.style.gridTemplateRows = f'{TOOLBAR_HEIGHT}px {editor_height}px {SPLITTER_HEIGHT}px {output_height}px {STATUSBAR_HEIGHT}px'
+    if self.is_mobile:
+      menu_height = self.menu.clientHeight + TOOLBAR_HEIGHT
+    else:
+      menu_height = TOOLBAR_HEIGHT
+
+    output_height = self.mainframe.clientHeight - (menu_height + editor_height + SPLITTER_HEIGHT + STATUSBAR_HEIGHT)
+    self.mainframe.style.gridTemplateRows = f'{menu_height}px {editor_height}px {SPLITTER_HEIGHT}px {output_height}px {STATUSBAR_HEIGHT}px'
+
 
   def reset_size(self):
     self.mainframe.style.gridTemplateColumns = f'{TOOLBAR_HEIGHT}px 1fr {SPLITTER_HEIGHT}px 1fr {STATUSBAR_HEIGHT}px'
