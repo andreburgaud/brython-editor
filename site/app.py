@@ -33,7 +33,6 @@ class App:
     self.menu = document['navMenu']
 
     self.google_mac_arm = self.is_google_mac_arm()
-    self.is_mobile = False
 
     self.bind_events()
 
@@ -181,7 +180,6 @@ class App:
   def on_burger(self, evt):
     self.menu.classList.toggle('is-active')
     self.burger.classList.toggle('is-active')
-    self.is_mobile = True
     self.resize_window()
 
   def start_resize(self, evt):
@@ -193,7 +191,13 @@ class App:
       self.is_resizing = False
       self.splitter.style.cursor = 'ns-resize'
 
+  def get_toolbar_height(self):
+    if self.burger.classList.contains('is-active'):
+      return self.menu.clientHeight + TOOLBAR_HEIGHT
+    return TOOLBAR_HEIGHT
+
   def resize(self, evt):
+    menu_height = self.get_toolbar_height()
     if evt.type == 'mousemove':
       clienty = evt.clientY
     elif evt.type == 'touchmove':
@@ -203,12 +207,12 @@ class App:
       return
     if clienty > self.mainframe.clientHeight - (MIN_HEIGHT_OUTPUT + STATUSBAR_HEIGHT):
       editor_height = self.mainframe.clientHeight - (MIN_HEIGHT_OUTPUT + STATUSBAR_HEIGHT)
-    elif clienty < (MIN_HEIGHT_EDITOR + TOOLBAR_HEIGHT):
+    elif clienty < (MIN_HEIGHT_EDITOR + menu_height):
       editor_height = MIN_HEIGHT_EDITOR
     else:
       editor_height = clienty - TOOLBAR_HEIGHT
-    output_height = self.mainframe.clientHeight - (TOOLBAR_HEIGHT + editor_height + SPLITTER_HEIGHT + STATUSBAR_HEIGHT)
-    self.mainframe.style.gridTemplateRows = f'{TOOLBAR_HEIGHT}px {editor_height}px {SPLITTER_HEIGHT}px {output_height}px {STATUSBAR_HEIGHT}px'
+    output_height = self.mainframe.clientHeight - (menu_height + editor_height + SPLITTER_HEIGHT + STATUSBAR_HEIGHT)
+    self.mainframe.style.gridTemplateRows = f'{menu_height}px {editor_height}px {SPLITTER_HEIGHT}px {output_height}px {STATUSBAR_HEIGHT}px'
 
   def on_resize(self, evt):
     if self.is_resizing:
@@ -219,15 +223,14 @@ class App:
     self.resize_window()
 
   def resize_window(self):
-    editor_height = self.container_edit.clientHeight + 2 # Border 1 x 2
-    if self.is_mobile:
-      menu_height = self.menu.clientHeight + TOOLBAR_HEIGHT
-    else:
-      menu_height = TOOLBAR_HEIGHT
+    if window.innerWidth > 1023 and self.burger.classList.contains('is-active'):
+      self.menu.classList.toggle('is-active')
+      self.burger.classList.toggle('is-active')
 
+    editor_height = self.container_edit.clientHeight + 2 # Border 1 x 2
+    menu_height = self.get_toolbar_height()
     output_height = self.mainframe.clientHeight - (menu_height + editor_height + SPLITTER_HEIGHT + STATUSBAR_HEIGHT)
     self.mainframe.style.gridTemplateRows = f'{menu_height}px {editor_height}px {SPLITTER_HEIGHT}px {output_height}px {STATUSBAR_HEIGHT}px'
-
 
   def reset_size(self):
     self.mainframe.style.gridTemplateColumns = f'{TOOLBAR_HEIGHT}px 1fr {SPLITTER_HEIGHT}px 1fr {STATUSBAR_HEIGHT}px'
