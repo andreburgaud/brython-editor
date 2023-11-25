@@ -2,7 +2,8 @@
 
 The production version of Python Scratchpad is available at https://pyscratchpad.com/.
 
-![PyScratchPad Screenshot from 2023-11-24 16-51-48](https://github.com/andreburgaud/python-scratchpad/assets/6396088/f4ccec46-9a8e-41f4-b9d2-d4aa07c2deb1)
+![PyScratchPad Screenshot from 2023-11-25 00-23-06](https://github.com/andreburgaud/python-scratchpad/assets/6396088/7f9b07e0-2ede-4b4d-b7de-8dbbe5dc26e3)
+
 
 # Local Server
 
