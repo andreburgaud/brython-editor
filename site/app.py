@@ -210,7 +210,7 @@ class App:
     elif clienty < (MIN_HEIGHT_EDITOR + menu_height):
       editor_height = MIN_HEIGHT_EDITOR
     else:
-      editor_height = clienty - TOOLBAR_HEIGHT
+      editor_height = clienty - menu_height
     output_height = self.mainframe.clientHeight - (menu_height + editor_height + SPLITTER_HEIGHT + STATUSBAR_HEIGHT)
     self.mainframe.style.gridTemplateRows = f'{menu_height}px {editor_height}px {SPLITTER_HEIGHT}px {output_height}px {STATUSBAR_HEIGHT}px'
 
