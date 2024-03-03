@@ -1,4 +1,6 @@
-FROM nginx:1.25.2-alpine3.18
+# syntax=docker/dockerfile:1
+
+FROM nginx:1.25.4-alpine3.18
 
 ADD site /usr/share/nginx/html/
 

@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Python Scratchpad</title>
   <link href="main.css" rel="stylesheet" type="text/css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.12.0/brython.min.js" integrity="sha512-c9KPreQJkIztVdIopz/3ywOh1dexbsWtuH/Xd3SYhp9Qkp3VXttFYcGAyBmQyvc7ppTgtJHWqMMeb/nhZJ2kHg==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.12.0/brython_stdlib.min.js" integrity="sha512-wwMw3wL04D0CqqQRJRYrFdjBo9jS3CzIWMjwOWwg5px60hgwAGoYchiGgSMghQqPNUk6QdjXN11BtB+XDmVW1g==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.30.0/ace.min.js" integrity="sha512-lwC0l9krGlq0b9AQ2sQ5nftG8CYsJnp35DZrNmMH5i09vPo6ZeBLV0OEyCRhSByTk1l6sV6wMa7inlMjSsQAGA==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.12.1/brython.min.js" integrity="sha512-b26I9i6YFQ59w5LZunkttC8RdD9r5BxxP8gsCJrkdqdl05uyT+Sslll4r+Uyw66jsHjdzukStcaP+Ufxu1XAoQ==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.12.1/brython_stdlib.min.js" integrity="sha512-1rZqFNkIZulJKvbh2M2iHOSuq7igQd4SCW9JhVclLvEDiXtuEiDSSa2f7HnE47KCEW66cX/8i6zdBX6zdKJ/dg==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.7/ace.min.js" integrity="sha512-GQpIYSKNIPIC763JKTNALj+t18/nfLdzw5gITgFGa31aK/4NmjyPKsfqrjh7CuzpJaG3nqEleeVcWUhHad9Axg==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css" integrity="sha512-HqxHUkJM0SYcbvxUw5P60SzdOTy/QVwA1JJrvaXJv4q7lmbDZCmZaqz01UPOaQveoxfYRv1tHozWGPMcuTBuvQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="https://kit.fontawesome.com/30690f4ae0.js" crossorigin="anonymous" defer></script>
 </head>
-<body onload="brython(0)">
+<body onload="brython(1)">
   <script type="text/python3" src="/about.py" id="about"></script>
   <script type="text/python3" src="/app.py" id="__main__"></script>
   <div id="mainframe">
@@ -51,14 +51,14 @@
     </div>
     <div id="statusbar">
       <div id="stb-status"></div>
-      <div id="stb-copy">Copyright &#169; 2020-2023 <a href="https://www.burgaud.com" target="_blank">Andr&#233; Burgaud</a></div>
+      <div id="stb-copy">Copyright &#169; 2020-2024 <a href="https://www.burgaud.com" target="_blank">Andr&#233; Burgaud</a></div>
     </div>
   </div>
   <div class="modal" id="modal-about">
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">Python ScratchPad 0.9.1</p>
+        <p class="modal-card-title">Python ScratchPad 0.10.0</p>
         <button class="delete" id="btn-close-about" aria-label="close"></button>
       </header>
       <section class="modal-card-body">
